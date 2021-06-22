@@ -1,17 +1,16 @@
-from gym import spaces
-import RobotEnv
+
+from AgtiCobot_RL.Scripts import RobotEnv, utils 
 from gym.envs.registration import register
 import rospy
 import numpy as np 
 import math 
-from cube_positions import Obj_Pos # !!! have a look !!! 
+from cube_positions import Obj_Pos  
 
-# The path is __init__.py of openai_ros, where we import the MovingCubeOneDiskWalkEnv directly
 timestep_limit_per_episode = 1000
 
 register(
         id='TrainingEnv-v0',
-        entry_point='template_my_training_env:MovingCubeOneDiskWalkEnv', # NEEDS changing 
+        entry_point='Training_Enviroment:trainingEnv',  
         timestep_limit=timestep_limit_per_episode,
     )
 
@@ -74,8 +73,8 @@ class TrainingEnv(Task_Enviroment.TrainingEnv, utils.EzPickle): # !!! need to cr
 				
 		self.movement_result = self.joint_pose(self.new_pos)
 		
-		self.gripper.set_joint_value_target( {"Finger1_base_proximal": 1})
-        self.gripper.go()
+		self.gripper.set_joint_value_target( {"Finger1_base_proximal": 1}) # !!! Needs working on !!! 
+        	self.gripper.go()
 		has_object = True 
 
 		if has_object = True:
