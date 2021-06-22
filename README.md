@@ -12,7 +12,7 @@ What needs adding/editing
  
  How to run 
  
- rosrun AgriCobot_RL A3C_Continuous_fetch.py ( Not ready till ROS package is created) 
+ rosrun AgriCobot_RL A3C_Continuous_fetch.py (Not ready till ROS package is created) 
  
  
 
