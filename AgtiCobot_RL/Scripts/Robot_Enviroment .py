@@ -104,7 +104,7 @@ class RobotEnv(robot_gazebo_env.RobotGazeboEnv):  # !!! RobotGazeboEnv needs cre
 			self.Exceeded = False 
 		
 		# Alter -0.6/0.6 to allow RL to change these numbers 
-		if self.track_flag == True and -0.6 < self.waypoints[0].position.x and self.waypoints[0].position.x < 0.6 and self.Exceeded==False:  #-0.2 in between -0.6 to 0.6 execute to change to a new pose
+		if self.track_flag == True and -0.6 < self.waypoints[0].position.x and self.waypoints[0].position.x < 0.6 and self.Exceeded == False:  #-0.2 in between -0.6 to 0.6 execute to change to a new pose
 			self.excute()
 			self.defult_pose_flag = False
 			
