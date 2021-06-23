@@ -14,13 +14,13 @@ register(
         timestep_limit=timestep_limit_per_episode,
     )
 
-class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle): # !!! need to create utils.EzPickle !!! 
+class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle): 
 
     def __init__(self):
 		
 		self.parameters()
 		RobotEnviroment.RobotEnv.__init__(self)
-		utils.EZPickle.__init__(self) # !!! NEEDS Making !!!
+		utils.EZPickle.__init__(self) 
 		
 		
 		self.gazebo.unpauseSim()
@@ -170,7 +170,7 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle): # !!! need to crea
 			reward = self.impossible_movement_punishememt
 		else :
 			if done_sucess:
-				reward = -1 * self.impossible_movement_punishememt # if it pick and places the object 
+				reward = reached_goal_reward # if it pick and places the object 
 			else:
 				if ee_z_pos < self.ee_z_min or ee_z_pos >= self.ee_z_max:
 					reward = self.impossible_movement_punishememt / 4.0 
