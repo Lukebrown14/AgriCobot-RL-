@@ -71,13 +71,11 @@ class RobotEnv(robot_gazebo_env.RobotGazeboEnv):  # !!! RobotGazeboEnv needs cre
 		ee_pose = self.fetch_commander_obj.ee_pose()
 		return ee_pose
 	
-		
 	def end_state(self):
 		
 		self.end_joint_states = deepcopy(self.default_joint_states)
         	self.end_joint_states[0] = -3.65
         
-
 		self.transition_pose = deepcopy(self.default_joint_states)
 		self.transition_pose[0] = -3.65
 		self.transition_pose[4] = -1.95
@@ -118,7 +116,6 @@ class RobotEnv(robot_gazebo_env.RobotGazeboEnv):  # !!! RobotGazeboEnv needs cre
                 self.execute()
 				self.default_pose_flag = True
 
-				
 	# --------- ParticularEnv methods --------- 
 	
     def _init_env_variables(self): # Inits variables needed to be initialised each time we reset at the start of an episode.
