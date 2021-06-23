@@ -22,7 +22,6 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
 		RobotEnviroment.RobotEnv.__init__(self)
 		utils.EZPickle.__init__(self) 
 		
-		
 		self.gazebo.unpauseSim()
 		
 	        # self.action_space = spaces.Discrete(self.n_actions)
@@ -31,7 +30,6 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
 		    high=self.position_joints_max, shape=(self.n_actions,),
 		    dtype=np.float32)
         
-
 		observations_high_dist = np.array([self.max_distance])
 		observations_low_dist = np.array([0.0])
 
@@ -78,7 +76,6 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
     
         rospy.logdebug('Init Env Variables...')
 		rospy.logdebug('Init Env Variables... End') 
-	
 
     def execute(self, action): # Move the robot based on the action variable given
 	
@@ -114,7 +111,7 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
 		gripper_array = [grip_pose.position.x, grip_pose.position.y, grip_pose.position.z] 
 		
 		# Pose of object         
-        object_data = self.obj_positions.get_states()
+        	object_data = self.obj_positions.get_states()
 		object_pos = object_data[3:]
 		
 		# Distance from object 
@@ -124,33 +121,33 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
 		object_vision = self.tracking_callback()
 		vision_array = [object_vision.cx, object_vision.cy]
 		
-		observations_obj = np.array([distance_from_cube,gripper_array, vision_array])
+		observations = np.array([distance_from_cube,gripper_array, vision_array])
 
-        return observations
+        	return observations
 		
 	def calc_dist(self,p1,p2): # d = ((2 - 1)2 + (1 - 1)2 + (2 - 0)2)1/2
 
-        x_d = math.pow(p1[0] - p2[0],2)
-        y_d = math.pow(p1[1] - p2[1],2)
-        z_d = math.pow(p1[2] - p2[2],2)
-        d = math.sqrt(x_d + y_d + z_d)
+		x_d = math.pow(p1[0] - p2[0],2)
+		y_d = math.pow(p1[1] - p2[1],2)
+		z_d = math.pow(p1[2] - p2[2],2)
+		d = math.sqrt(x_d + y_d + z_d)
 
         return d
 		
 	def get_elapsed_time(self): # Returns the elapsed time since the beginning of the simulation
       
-        current_time = rospy.get_time()
-        dt = self.sim_time - current_time
-        self.sim_time = current_time
-		
-        return dt
+		current_time = rospy.get_time()
+		dt = self.sim_time - current_time
+		self.sim_time = current_time
+
+		return dt
 
     def _is_done(self, observations): # Decide if episode is done based on the observations
 	
-		if self.missed = True:
-			done_fail = True 
+		if self.missed == True:
+			done_fail
 		
-		if task_completed:
+		if task_completed == True:
 			done_sucess 
 			
 		if dt == 100: # Needs alterting 
