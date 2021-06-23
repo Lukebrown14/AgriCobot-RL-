@@ -14,7 +14,7 @@ register(
         timestep_limit=timestep_limit_per_episode,
     )
 
-class TrainingEnv(Task_Enviroment.TrainingEnv, utils.EzPickle): # !!! need to create utils.EzPickle !!! 
+class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle): # !!! need to create utils.EzPickle !!! 
 
     def __init__(self):
 		
@@ -25,9 +25,28 @@ class TrainingEnv(Task_Enviroment.TrainingEnv, utils.EzPickle): # !!! need to cr
 		
 		self.gazebo.unpauseSim()
 		
-		"""
-		Needs adding to, look at template for ideas 
-		"""
+	        # self.action_space = spaces.Discrete(self.n_actions)
+		self.action_space = spaces.Box(
+		    low=self.position_joints_min,
+		    high=self.position_joints_max, shape=(self.n_actions,),
+		    dtype=np.float32)
+        
+
+		observations_high_dist = np.array([self.max_distance])
+		observations_low_dist = np.array([0.0])
+
+		observations_high_speed = np.array([self.max_speed])
+		observations_low_speed = np.array([0.0])
+
+		observations_ee_z_max = np.array([self.ee_z_max])
+		observations_ee_z_min = np.array([self.ee_z_min])
+
+		high = np.concatenate([observations_high_dist, observations_high_speed, observations_ee_z_max])
+		low = np.concatenate([observations_low_dist, observations_low_speed, observations_ee_z_min])
+
+		self.observation_space = spaces.Box(low, high)
+
+		obs = self._get_obs()
 		
 	def parameters(self):
 	
