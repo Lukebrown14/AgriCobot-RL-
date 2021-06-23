@@ -81,31 +81,31 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
 	
 
     def execute(self, action): # Move the robot based on the action variable given
-		
-        self.new_pos = {"joint0": action[0],
-                "joint1": action[1],
-                "joint2": action[2],
-                "joint3": action[3],
-                "joint4": action[4],
-                "joint5": action[5],
-                "joint6": action[6]}
-				
-		self.movement_result = self.joint_pose(self.new_pos)
-		
-		self.gripper.set_joint_value_target( {"Finger1_base_proximal": 1}) # !!! Needs working on !!! 
-        	self.gripper.go()
-		has_object = True 
+	
+	if self.track_flag == True:	 
+		self.new_pos = {"joint0": action[0],  # How does action relate to everything 
+			"joint1": action[1],
+			"joint2": action[2],
+			"joint3": action[3],
+			"joint4": action[4],
+			"joint5": action[5],
+			"joint6": action[6]}
 
-		if has_object = True:
-			self.end_state() 
-			return task_completed 
+			self.movement_result = self.joint_pose(self.new_pos)
+
+			self.gripper.set_joint_value_target( {"Finger1_base_proximal": 1}) # !!! Needs working on !!! 
+			self.gripper.go()
+			has_object = True 
+
+			if has_object = True:
+				self.end_state() 
+				return task_completed 	
+			else:
+				self.missed = True 
+
+			final_outcome = task_completed or missed 
 			
-		else:
-			self.missed = True 
-		
-		final_outcome = task_completed or missed 
-			
-		return 
+		return final_outcome
 		
     def _get_obs(self): # Here we define what sensor data of our robots observations To know which Variables we have acces to
 		
@@ -164,7 +164,6 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
 		
 		distance = observations[0]
 		ee_z_pos = observations[2]
-
 		
 		if done_fail:
 			reward = self.impossible_movement_punishememt
