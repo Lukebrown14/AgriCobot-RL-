@@ -4,7 +4,6 @@ What needs adding/editing:
 
   - Convert into ROS package 
   - Create RobotGazeboEnv
-  - Create utils.EzPickle
   - Install TensorFlow package onto this (Use link below) 
   - Debug/Testing  
   
