@@ -50,8 +50,11 @@ class RobotEnv(robot_gazebo_env.RobotGazeboEnv):
 
 		self.arm.set_joint_value_target(self.default_pose)
 
+'''
+gripper_position and ee_pose is most likly unneeded 
+'''
 	def gripper_position(self, initial_grip_pos): # Setting the position of the gripper
-	
+	# This is most likly unneeded 
 		self.initial_grip_pos = initial_grip_pos 
 
 		self.gripper_pose = self.gripper.get_current_joint_values()
@@ -60,16 +63,13 @@ class RobotEnv(robot_gazebo_env.RobotGazeboEnv):
 		self.gripper_pose[2] = initial_grip_pos["grip2"]
 			
 		self.gripper.set_joint_value_target(self.gripper_pose)
-			"""
-			"""
 			
-	
 	def ee_pose(self):
 		
 		ee_pose = self.fetch_commander_obj.ee_pose()
 		return ee_pose
 	
-	def end_state(self):
+	def end_state(self): # Repersents what needs to happen after the object is picked up sucessful 
 		
 		self.end_joint_states = deepcopy(self.default_joint_states)
         	self.end_joint_states[0] = -3.65
@@ -83,7 +83,7 @@ class RobotEnv(robot_gazebo_env.RobotGazeboEnv):
 		
 		self.justDropped = True
 
-	def tracking_callback(self, msg): # !!! Needs lookin at !!! 
+	def tracking_callback(self, msg): # !!! I'm not sure this correct in tracking the object  
 		
 		self.track_flag = msg.flag1
 		self.cx = msg.x

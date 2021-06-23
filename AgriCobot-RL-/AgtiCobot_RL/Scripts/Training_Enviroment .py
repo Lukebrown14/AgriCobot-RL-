@@ -97,10 +97,10 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
             has_object = True 
 
             if has_object == True:
-               self.end_state() 
+               self.end_state() # This is meant to excute drop of object in Robot_Enviroment 
                return self.task_completed 	
             else:
-               self.missed = True 
+               self.missed  
 
             final_outcome = self.task_completed or self.missed 
 				
@@ -127,7 +127,7 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
 
         return observations
 		
-    def calc_dist(self,p1,p2): # d = ((2 - 1)2 + (1 - 1)2 + (2 - 0)2)1/2
+    def calc_dist(self,p1,p2): # Calculates the distnace between the object and gripper 
 
         x_d = math.pow(p1[0] - p2[0],2)
         y_d = math.pow(p1[1] - p2[1],2)
@@ -152,7 +152,7 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
         if self.task_completed == True:
             self.done_sucess 
 			
-        if self.dt == 100: # Needs alterting 
+        if self.dt == 100: # Needs work / When the time of the system reach 100 seconds it timesout and finishes  
           return self.timeout 
 			
         done = self.done_fail or self.done_sucess or self.timeout 
@@ -165,7 +165,7 @@ class TrainingEnv(Robot_Enviroment.RobotEnv, utils.EzPickle):
         ee_z_pos = observations[2]
 		
         if self.done_fail:
-            reward = self.impossible_movement_punishememt
+            reward = self.impossible_movement_punishememt # If the task fails 
         else :
             if self.done_sucess:
                reward = self.reached_goal_reward # if it pick and places the object 
