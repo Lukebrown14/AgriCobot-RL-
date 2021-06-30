@@ -14,8 +14,15 @@ class RobotEnv(robot_gazebo_env.RobotGazeboEnv):
 	"""
 	!!! RobotGazeboEnv needs creating !!!
 	"""
-	def __init__(self,track_flag = False,phase = 1,Exceeded = False, ):
-	
+	def __init__(self,track_flag = False,phase = 1,Exceeded = False, model_path ):
+		
+		if model_path.startswith('/'):
+		    fullpath = model_path
+		else:
+		    fullpath = os.path.join(os.path.dirname(__file__), 'assets', model_path)
+		if not os.path.exists(fullpath):
+		    raise IOError('File {} does not exist'.format(fullpath))		
+
 		self.track_flag = track_flag 
 		self.phase = phase 
 		self.Exceeded = Exceeded  
@@ -29,8 +36,7 @@ class RobotEnv(robot_gazebo_env.RobotGazeboEnv):
 		reference_frame = "/world/base_link"  # Set the reference frame for pose targets
 		self.arm.set_pose_reference_frame(reference_frame)  # Set the ur5_arm reference frame accordingly
 
-		#self.cx = 400.0
-    	#self.cy = 400.0 
+	
 		
 		super(RobotEnv, self).__init__(""" Needs filling """)
 		
@@ -82,6 +88,18 @@ gripper_position and ee_pose is most likly unneeded
 		self.gripper.go(wait=True)
 		
 		self.justDropped = True
+		
+	def render(self, mode='human', width=DEFAULT_SIZE, height=DEFAULT_SIZE):
+		
+		self._render_callback()
+		if mode == 'rgb_array':
+		    self._get_viewer(mode).render(width, height)
+		    # window size used for old mujoco-py:
+		    data = self._get_viewer(mode).read_pixels(width, height, depth=False)
+		    # original image is upside-down, so flip it
+		    return data[::-1, :, :]
+		elif mode == 'human':
+		    self._get_viewer(mode).render()
 
 	def tracking_callback(self, msg): # !!! I'm not sure this correct in tracking the object  
 		
